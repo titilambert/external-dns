@@ -43,6 +43,7 @@ var (
 		GoogleBatchChangeInterval:   time.Second,
 		DomainFilter:                []string{""},
 		ExcludeDomains:              []string{""},
+		ZoneNameFilter:             []string{""},
 		ZoneIDFilter:                []string{""},
 		AlibabaCloudConfigFile:      "/etc/kubernetes/alibaba-cloud.json",
 		AWSZoneType:                 "",
@@ -241,6 +242,8 @@ func TestParseFlags(t *testing.T) {
 				"--domain-filter=company.com",
 				"--exclude-domains=xapi.example.org",
 				"--exclude-domains=xapi.company.com",
+				"--zone-name-filter=yapi.example.org",
+				"--zone-name-filter=yapi.company.com",
 				"--zone-id-filter=/hostedzone/ZTST1",
 				"--zone-id-filter=/hostedzone/ZTST2",
 				"--aws-zone-type=private",
@@ -282,6 +285,7 @@ func TestParseFlags(t *testing.T) {
 			title: "override everything via environment variables",
 			args:  []string{},
 			envVars: map[string]string{
+<<<<<<< HEAD
 				"EXTERNAL_DNS_MASTER":                       "http://127.0.0.1:8080",
 				"EXTERNAL_DNS_KUBECONFIG":                   "/some/path",
 				"EXTERNAL_DNS_REQUEST_TIMEOUT":              "77s",
@@ -324,6 +328,7 @@ func TestParseFlags(t *testing.T) {
 				"EXTERNAL_DNS_TLS_CA":                       "/path/to/ca.crt",
 				"EXTERNAL_DNS_TLS_CLIENT_CERT":              "/path/to/cert.pem",
 				"EXTERNAL_DNS_TLS_CLIENT_CERT_KEY":          "/path/to/key.pem",
+				"EXTERNAL_DNS_ZONE_NAME_FILTER":             "yapi.example.org\nyapi.company.com",
 				"EXTERNAL_DNS_ZONE_ID_FILTER":               "/hostedzone/ZTST1\n/hostedzone/ZTST2",
 				"EXTERNAL_DNS_AWS_ZONE_TYPE":                "private",
 				"EXTERNAL_DNS_AWS_ZONE_TAGS":                "tag=foo",
