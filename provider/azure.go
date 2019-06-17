@@ -264,14 +264,12 @@ func (p *AzureProvider) zones(ctx context.Context) ([]dns.Zone, error) {
 	for zonesIterator.NotDone() {
 		zone := zonesIterator.Value()
 
-		if len(p.zoneNameFilter.filters) == 0 {
-			if !p.domainFilter.Match(*zone.Name) {
-				continue
-			}
-		} else {
-			if !p.zoneNameFilter.Match(*zone.Name) {
-				continue
-			}
+		if len(p.zoneNameFilter.filters) == 0 && !p.domainFilter.Match(*zone.Name) {
+			continue
+		}
+
+		if !p.zoneNameFilter.Match(*zone.Name) {
+			continue
 		}
 
 		if zone.Name != nil && p.domainFilter.Match(*zone.Name) && p.zoneIDFilter.Match(*zone.ID) {
