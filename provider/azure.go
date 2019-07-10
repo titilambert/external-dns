@@ -245,6 +245,7 @@ func (p *AzureProvider) zones() ([]dns.Zone, error) {
 
 			if len(p.zoneNameFilter.filters) == 0 && !p.domainFilter.Match(*zone.Name) {
 				continue
+			}
 
 			if !p.zoneNameFilter.Match(*zone.Name) {
 				continue
