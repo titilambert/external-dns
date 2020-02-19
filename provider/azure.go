@@ -67,7 +67,7 @@ type RecordSetsClient interface {
 // AzureProvider implements the DNS provider for Microsoft's Azure cloud platform.
 type AzureProvider struct {
 	domainFilter                 DomainFilter
-	zoneNameFilter				 DomainFilter
+	zoneNameFilter               DomainFilter
 	zoneIDFilter                 ZoneIDFilter
 	dryRun                       bool
 	resourceGroup                string
@@ -121,7 +121,7 @@ func NewAzureProvider(configFile string, domainFilter DomainFilter, zoneNameFilt
 
 	provider := &AzureProvider{
 		domainFilter:                 domainFilter,
-		zoneNameFilter:				  zoneNameFilter,
+		zoneNameFilter:               zoneNameFilter,
 		zoneIDFilter:                 zoneIDFilter,
 		dryRun:                       dryRun,
 		resourceGroup:                cfg.ResourceGroup,
@@ -205,6 +205,7 @@ func (p *AzureProvider) Records(ctx context.Context) (endpoints []*endpoint.Endp
 				return true
 			}
 			name := formatAzureDNSName(*recordSet.Name, *zone.Name)
+
 			if len(p.zoneNameFilter.filters) > 0 && !p.domainFilter.Match(name) {
 				log.Debugf("Skipping return of record %s because it was filtered out by the specified --domain-filter", name)
 				return false
@@ -264,15 +265,10 @@ func (p *AzureProvider) zones(ctx context.Context) ([]dns.Zone, error) {
 	for zonesIterator.NotDone() {
 		zone := zonesIterator.Value()
 
-		if len(p.zoneNameFilter.filters) == 0 && !p.domainFilter.Match(*zone.Name) {
-			continue
-		}
-
-		if !p.zoneNameFilter.Match(*zone.Name) {
-			continue
-		}
-
 		if zone.Name != nil && p.domainFilter.Match(*zone.Name) && p.zoneIDFilter.Match(*zone.ID) {
+			zones = append(zones, zone)
+		} else if zone.Name != nil && len(p.zoneNameFilter.filters) > 0 && p.zoneNameFilter.Match(*zone.Name) {
+			// Handle zoneNameFilter
 			zones = append(zones, zone)
 		}
 

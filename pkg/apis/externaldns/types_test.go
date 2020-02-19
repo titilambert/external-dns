@@ -43,7 +43,7 @@ var (
 		GoogleBatchChangeInterval:   time.Second,
 		DomainFilter:                []string{""},
 		ExcludeDomains:              []string{""},
-		ZoneNameFilter:             []string{""},
+		ZoneNameFilter:              []string{""},
 		ZoneIDFilter:                []string{""},
 		AlibabaCloudConfigFile:      "/etc/kubernetes/alibaba-cloud.json",
 		AWSZoneType:                 "",
@@ -115,6 +115,7 @@ var (
 		GoogleBatchChangeInterval:   time.Second * 2,
 		DomainFilter:                []string{"example.org", "company.com"},
 		ExcludeDomains:              []string{"xapi.example.org", "xapi.company.com"},
+		ZoneNameFilter:              []string{"yapi.example.org", "yapi.company.com"},
 		ZoneIDFilter:                []string{"/hostedzone/ZTST1", "/hostedzone/ZTST2"},
 		AlibabaCloudConfigFile:      "/etc/kubernetes/alibaba-cloud.json",
 		AWSZoneType:                 "private",
@@ -285,7 +286,6 @@ func TestParseFlags(t *testing.T) {
 			title: "override everything via environment variables",
 			args:  []string{},
 			envVars: map[string]string{
-<<<<<<< HEAD
 				"EXTERNAL_DNS_MASTER":                       "http://127.0.0.1:8080",
 				"EXTERNAL_DNS_KUBECONFIG":                   "/some/path",
 				"EXTERNAL_DNS_REQUEST_TIMEOUT":              "77s",

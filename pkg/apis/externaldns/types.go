@@ -58,7 +58,7 @@ type Config struct {
 	GoogleBatchChangeInterval         time.Duration
 	DomainFilter                      []string
 	ExcludeDomains                    []string
-	ZoneNameFilter					  []string
+	ZoneNameFilter                    []string
 	ZoneIDFilter                      []string
 	AlibabaCloudConfigFile            string
 	AlibabaCloudZoneType              string
