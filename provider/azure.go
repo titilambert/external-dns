@@ -352,7 +352,7 @@ func (p *AzureProvider) deleteRecords(ctx context.Context, deleted azureChangeMa
 	for zone, endpoints := range deleted {
 		for _, endpoint := range endpoints {
 			name := p.recordSetNameForZone(zone, endpoint)
-			if len(p.zoneNameFilter.filters) > 0 && !p.domainFilter.Match(endpoint.DNSName) {
+			if !p.domainFilter.Match(endpoint.DNSName) {
 				log.Debugf("Skipping deletion of record %s because it was filtered out by the specified --domain-filter", endpoint.DNSName)
 				continue
 			}
@@ -378,7 +378,7 @@ func (p *AzureProvider) updateRecords(ctx context.Context, updated azureChangeMa
 	for zone, endpoints := range updated {
 		for _, endpoint := range endpoints {
 			name := p.recordSetNameForZone(zone, endpoint)
-			if len(p.zoneNameFilter.filters) > 0 && !p.domainFilter.Match(endpoint.DNSName) {
+			if !p.domainFilter.Match(endpoint.DNSName) {
 				log.Debugf("Skipping update of record %s because it was filtered out by the specified --domain-filter", endpoint.DNSName)
 				continue
 			}
